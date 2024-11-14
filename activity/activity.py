@@ -3,4 +3,27 @@
 # code.
 class Solution:
     def mostCommonWord(self, paragraph: str, banned: list[str]) -> str:
-        pass
+        # filter out punctuation by replacing with spaces, which will be caught by split
+        # make sure the words are lowercase to support case insensitive comparison (and for output)
+        filtered_paragraph = "".join([c if c.isalpha() else " " for c in paragraph.lower()])
+
+        # get words from paragraph
+        words = filtered_paragraph.split()
+
+        # filter out a word if it is banned
+        banned_set = set(banned)
+        valid_words = [word for word in words if word not in banned_set]
+
+        # this leaves valid words without punctuation in lowercase
+
+        # count each word occurrence
+        counts = {}
+        for word in valid_words:
+            counts[word] = counts.get(word, 0) + 1
+
+        # find the word with the highest count
+        max_word = max(counts, key=counts.get)
+
+        # return the word
+        return max_word
+
